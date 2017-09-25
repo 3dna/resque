@@ -868,7 +868,7 @@ module Resque
 
     private
 
-    def log_trace(mesage)
+    def log_trace(message)
       if verbose || very_verbose
         Logging.log(:debug, message)
       end
