@@ -241,7 +241,7 @@ module Resque
           @child = nil
         else
           break if interval.zero?
-          log_with_severity :trace, "Sleeping for #{interval} seconds"
+          log_trace "Sleeping for #{interval} seconds"
           procline paused? ? "Paused" : "Waiting for #{queues.join(',')}"
           sleep interval
         end
@@ -821,7 +821,7 @@ module Resque
     #   RESQUE_PROCLINE_PREFIXresque-VERSION: STRING
     def procline(string)
       $0 = "#{ENV['RESQUE_PROCLINE_PREFIX']}resque-#{Resque::Version}: #{string}"
-      log_with_severity :trace, $0
+      log_trace $0
     end
 
     def log(message)
@@ -867,6 +867,12 @@ module Resque
     end
 
     private
+
+    def log_trace(mesage)
+      if verbose || very_verbose
+        Logging.log(:debug, message)
+      end
+    end
 
     def log_with_severity(severity, message)
       Logging.log(severity, message)
